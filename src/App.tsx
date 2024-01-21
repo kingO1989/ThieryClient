@@ -169,7 +169,7 @@ function App() {
 
                     yaxis: {
                       zeroline: false,
-                      title: "<b>Db</b>",
+                      title: "<b> Sound Pressure Level Db</b>",
                     },
                   }}
                 />
@@ -192,7 +192,7 @@ function App() {
                       meanline: {
                         visible: true,
                       },
-                      x0: "Noise Decibel",
+                      x0: "  ",
                     },
                   ]}
                   layout={{
@@ -202,7 +202,7 @@ function App() {
 
                     yaxis: {
                       zeroline: false,
-                      title: "<b>Db</b>",
+                      title: "<b> Sound Pressure Level Db</b>",
                     },
                   }}
                 />
