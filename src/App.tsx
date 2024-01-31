@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 import "./App.css";
+import supabase from "./SBClient";
 
 function App() {
   const [error, setError] = useState<boolean>(false);
@@ -11,6 +12,7 @@ function App() {
   const [dependentXvalues, setDependentXvalues] = useState();
   const [dependentYvalues, setDependentYvalues] = useState();
   const [dateRange, setDateRange] = useState("Unfiltered");
+  const [cars, setCars] = useState<Array<string>>();
 
   const host = "https://thiery-server.vercel.app";
   async function fetchData() {
@@ -18,6 +20,13 @@ function App() {
 
     try {
       result = await fetch(`${host}/`);
+
+      const { data, error } = await supabase.from("cars").select();
+      if (error) console.log(error);
+      if (data) {
+        setCars(data);
+      }
+
       /*      
       setData(() => data);
       violindata = [
@@ -81,13 +90,35 @@ function App() {
     let json: any = await results.json();
     setDependentTraceData(json.dbs);
     setDependentXvalues(json.dates);
-    console.log(json);
+
     setDateRange(
       "From " +
         new Date(json.dateRange.min) +
         " <br><b>To</b></br>  " +
         new Date(json.dateRange.max)
     );
+  }
+
+  async function onChangeCarModel(e: any) {
+    console.log(e.target.value);
+
+    let results: Response = await fetch(
+      `${host}/filterbyCar?car=${e.target.value}`
+    ); //filterbydate
+
+    let json: any = await results.json();
+
+    setError(false);
+    setData(json.dbs);
+    console.log(json.dbs);
+
+    setXValues(json.dates);
+    setYValues(json.hours);
+
+    setDependentTraceData(json.dbs);
+    setDependentXvalues(json.dates);
+
+    console.log(json);
   }
 
   useEffect(() => {
@@ -99,6 +130,19 @@ function App() {
         <p>Error</p>
       ) : (
         <div>
+          <select onChange={(e) => onChangeCarModel(e)}>
+            <option>all</option>
+            {cars
+              ? cars.map((c: any, id) => {
+                  return (
+                    <option value={c.car_number} key={id}>
+                      {" "}
+                      {c.car_number} - {c.car_model}{" "}
+                    </option>
+                  );
+                })
+              : ""}
+          </select>
           <div>
             {data ? (
               <>

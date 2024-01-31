@@ -1,1 +1,30 @@
- 
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400);
+
+@arrowColor: #ffcc00;
+@arrow: escape('@{arrowColor}');
+
+select {
+  background-color: #1f99cd;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: auto 50%;
+  border-radius: 2px;
+  border: none;
+  color: #ffffff;
+  padding: 10px 30px 10px 10px;
+
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+@-moz-document url-prefix() {
+  select {
+    color: rgba(0, 0, 0, 0);
+    text-shadow: 0 0 0 #ffffff;
+  }
+}
