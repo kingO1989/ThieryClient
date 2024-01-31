@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 import "./App.css";
 import supabase from "./SBClient";
+import HeadBodyGrid from "./HeatBodyGrid";
 
 function App() {
   const [error, setError] = useState<boolean>(false);
@@ -117,6 +118,7 @@ function App() {
 
     setDependentTraceData(json.dbs);
     setDependentXvalues(json.dates);
+    setDateRange("Unfiltered");
 
     console.log(json);
   }
@@ -127,26 +129,30 @@ function App() {
   return (
     <>
       {error ? (
-        <p>Error</p>
-      ) : (
+        <>
+          <h1>Error</h1>
+          <p>Contact Admin</p>
+        </>
+      ) : data ? (
         <div>
-          <select onChange={(e) => onChangeCarModel(e)}>
-            <option>all</option>
-            {cars
-              ? cars.map((c: any, id) => {
-                  return (
-                    <option value={c.car_number} key={id}>
-                      {" "}
-                      {c.car_number} - {c.car_model}{" "}
-                    </option>
-                  );
-                })
-              : ""}
-          </select>
-          <div>
+          <div className="container">
+            <select onChange={(e) => onChangeCarModel(e)}>
+              <option>Filter by Sky Train</option>
+              {cars
+                ? cars.map((c: any, id) => {
+                    return (
+                      <option value={c.car_number} key={id}>
+                        {" "}
+                        {c.car_number} - {c.car_model}{" "}
+                      </option>
+                    );
+                  })
+                : ""}
+            </select>
             {data ? (
               <>
                 <Plot
+                  className="heat-map-dash"
                   onClick={(e) => HeatMapClickHandler(e)}
                   data={[
                     {
@@ -187,75 +193,79 @@ function App() {
                 />
 
                 <br></br>
-                <Plot
-                  data={[
-                    {
-                      type: "scatter",
+                <div className="other_plots">
+                  <Plot
+                    data={[
+                      {
+                        type: "scatter",
 
-                      mode: "lines+markers",
-                      marker: { color: "red" },
-                      x: dependentXvalues,
-                      xgap: 5,
-                      y: dependentTraceData,
-                      hovertemplate: "Db: %{y} " + "<br>Time: %{x}</br>",
+                        mode: "lines+markers",
+                        marker: { color: "red" },
+                        x: dependentXvalues,
+                        xgap: 5,
+                        y: dependentTraceData,
+                        hovertemplate: "Db: %{y} " + "<br>Time: %{x}</br>",
 
-                      // hover: false
-                    },
-                  ]}
-                  layout={{
-                    width: 1000,
-                    height: 500,
-                    title: `Scatter Plot <br> <b>Range:</b>${dateRange}</br>`,
-                    xaxis: {
-                      zeroline: false,
-                      title: "<b>Date</b>",
-                    },
-
-                    yaxis: {
-                      zeroline: false,
-                      title: "<b> Sound Pressure Level Db</b>",
-                    },
-                  }}
-                />
-
-                <Plot
-                  data={[
-                    {
-                      type: "violin",
-                      y: dependentTraceData,
-                      points: false,
-                      box: {
-                        visible: true,
+                        // hover: false
                       },
-                      boxpoints: false,
-                      line: {
-                        color: "black",
+                    ]}
+                    layout={{
+                      width: 1000,
+                      height: 500,
+                      title: `Scatter Plot <br> <b>Range:</b>${dateRange}</br>`,
+                      xaxis: {
+                        zeroline: false,
+                        title: "<b>Date</b>",
                       },
-                      fillcolor: "#8dd3c7",
-                      opacity: 0.6,
-                      meanline: {
-                        visible: true,
-                      },
-                      x0: "  ",
-                    },
-                  ]}
-                  layout={{
-                    width: 800,
-                    height: 500,
-                    title: `Violin Plot <br> <b>Range:</b>${dateRange}</br>`,
 
-                    yaxis: {
-                      zeroline: false,
-                      title: "<b> Sound Pressure Level Db</b>",
-                    },
-                  }}
-                />
+                      yaxis: {
+                        zeroline: false,
+                        title: "<b> Sound Pressure Level Db</b>",
+                      },
+                    }}
+                  />
+
+                  <Plot
+                    data={[
+                      {
+                        type: "violin",
+                        y: dependentTraceData,
+                        points: false,
+                        box: {
+                          visible: true,
+                        },
+                        boxpoints: false,
+                        line: {
+                          color: "black",
+                        },
+                        fillcolor: "#8dd3c7",
+                        opacity: 0.6,
+                        meanline: {
+                          visible: true,
+                        },
+                        x0: "  ",
+                      },
+                    ]}
+                    layout={{
+                      width: 800,
+                      height: 500,
+                      title: `Violin Plot <br> <b>Range:</b>${dateRange}</br>`,
+
+                      yaxis: {
+                        zeroline: false,
+                        title: "<b> Sound Pressure Level Db</b>",
+                      },
+                    }}
+                  />
+                </div>
               </>
             ) : (
               ""
             )}
           </div>
         </div>
+      ) : (
+        <HeadBodyGrid />
       )}
     </>
   );

@@ -1,7 +1,17 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400);
 
-@arrowColor: #ffcc00;
-@arrow: escape('@{arrowColor}');
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container .heat-map-dash {
+}
+
+.container .other_plots {
+  display: flex;
+  flex-direction: row;
+}
 
 select {
   background-color: #1f99cd;
@@ -14,17 +24,4 @@ select {
   padding: 10px 30px 10px 10px;
 
   outline: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  &::-ms-expand {
-    display: none;
-  }
-}
-
-@-moz-document url-prefix() {
-  select {
-    color: rgba(0, 0, 0, 0);
-    text-shadow: 0 0 0 #ffffff;
-  }
 }
