@@ -23,13 +23,35 @@ a:hover {
 }
 
 body {
-  margin: auto;
-  display: flex;
-  place-items: center;
-  width: 80%;
+  width: 100%;
   min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
 }
 
+.dark {
+  background-color: rgb(73, 72, 72);
+}
+
+.light {
+  background-color: white;
+}
+
+.dark > h4 {
+  color: white;
+}
+
+.dark > p {
+  color: white;
+}
+
+.light > h4 {
+  color: rgb(73, 72, 72);
+}
+
+.light > p {
+  color: rgb(73, 72, 72);
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
