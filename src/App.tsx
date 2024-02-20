@@ -20,7 +20,7 @@ function App() {
   const [, setDateRange] = useState("Unfiltered");
   const [cars, setCars] = useState<Array<string>>();
   const [selectedCar, setSelectedCar] = useState<string>();
-  const host = "http://127.0.0.1:3000"; //"https://thiery-server.vercel.app";
+  const host = "https://thiery-server.vercel.app";
   const [tabdisplay, setTabDisplay] = useState<string>();
   /**
    *
