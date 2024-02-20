@@ -30,7 +30,7 @@ function App() {
     let result;
 
     try {
-      result = await fetch(`${host}/`); // remove mod to revert
+      result = await fetch(`${host}/mod`); // remove mod to revert
 
       const { data, error } = await supabase.from("cars").select();
       if (error) console.log(error);
@@ -45,8 +45,7 @@ function App() {
     let json = await result.json();
 
     setError(false);
-    setData(json.hdbs);
-    console.log(json.hdbs);
+    setData(json.dbs);
 
     setXValues(json.dates);
     setYValues(json.hours);
@@ -70,7 +69,6 @@ function App() {
     let json: any = await results.json();
     setDependentTraceData(json.dbs);
     setDependentXvalues(json.dates);
-    console.log(json.dbs);
 
     setDateRange(
       "From " +
@@ -108,7 +106,7 @@ function App() {
     let json: any = await results.json();
 
     setError(false);
-    setData(json.hdbs);
+    setData(json.dbs);
 
     setXValues(json.dates);
     setYValues(json.hours);
@@ -144,91 +142,64 @@ function App() {
   }, []);
   return (
     <>
-      {error ? (
-        <>
-          <h1>Error</h1>
-          <p>Contact Admin</p>
-        </>
-      ) : data ? (
-        <div>
-          <div className={`container ${mode ? "dark" : "light"}`}>
-            <div className="header">
-              <nav>
-                <span>
-                  <b>Sky Train</b>
-                </span>
-              </nav>
-              <ThemeSwitch setMode={setMode} mode={mode} />
-            </div>
-            <div className="select_and_theme">
-              <div className="select_sky_train">
-                <label htmlFor="skytrains">Select Train</label>
-                <select
-                  className="skytrains"
-                  data-tag
-                  onChange={(e) => onChangeCarModel(e)}
-                >
-                  <option>all</option>
-                  {cars
-                    ? cars.map((c: any, id) => {
-                        return (
-                          <option
-                            value={`${c.car_number}-${c.car_model}`}
-                            key={id}
-                            data-tag={`${c.car_number} - ${c.car_model}`}
-                          >
-                            {" "}
-                            {c.car_number} - {c.car_model}{" "}
-                          </option>
-                        );
-                      })
-                    : ""}
-                </select>
-              </div>
-            </div>
-            {data ? (
-              <>
-                <HeatMap
-                  mode={mode}
-                  HeatMapClickHandler={HeatMapClickHandler}
-                  data={data}
-                  xvalues={xvalues}
-                  yvalues={yvalues}
-                  selectedCar={selectedCar}
-                />
-
-                <br></br>
-                <div className="tab_nav">
-                  <button value={"Scatter"} onClick={tabBtnClickHandler}>
-                    Scatter Plot
-                  </button>
-                  <button value={"Bar"} onClick={tabBtnClickHandler}>
-                    Bar Chart
-                  </button>
-                  <button value={"Histogram"} onClick={tabBtnClickHandler}>
-                    Histogram Plot
-                  </button>
-
-                  <button value={"Violin"} onClick={tabBtnClickHandler}>
-                    Violin Plot
-                  </button>
-                </div>
-                <div className="other_plots">
-                  <OtherPlots
-                    selectedplot={tabdisplay}
-                    mode={mode}
-                    dependentXvalues={dependentXvalues}
-                    dependentTraceData={dependentTraceData}
-                  />
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
+      <div className="select_and_theme">
+        <div className="select_sky_train">
+          <label htmlFor="skytrains">Select Train</label>
+          <select
+            className="skytrains"
+            data-tag
+            onChange={(e) => onChangeCarModel(e)}
+          >
+            <option>all</option>
+            {cars
+              ? cars.map((c: any, id) => {
+                  return (
+                    <option
+                      value={`${c.car_number}-${c.car_model}`}
+                      key={id}
+                      data-tag={`${c.car_number} - ${c.car_model}`}
+                    >
+                      {" "}
+                      {c.car_number} - {c.car_model}{" "}
+                    </option>
+                  );
+                })
+              : ""}
+          </select>
         </div>
+      </div>
+      {data ? (
+        <>
+          <HeatMap
+            mode={mode}
+            HeatMapClickHandler={HeatMapClickHandler}
+            data={data}
+            xvalues={xvalues}
+            yvalues={yvalues}
+            selectedCar={selectedCar}
+          />
+
+          <br></br>
+          <div className="tab_nav">
+            <button value={"Scatter"} onClick={tabBtnClickHandler}>
+              Scatter Plot
+            </button>
+
+            <button value={"Violin"} onClick={tabBtnClickHandler}>
+              Violin Plot
+            </button>
+          </div>
+          <div className="other_plots">
+            <OtherPlots
+              selectedplot={tabdisplay}
+              mode={mode}
+              dependentXvalues={dependentXvalues}
+              dependentTraceData={dependentTraceData}
+            />
+          </div>
+        </>
       ) : (
-        <HeadBodyGrid />
+        ""
       )}
     </>
   );

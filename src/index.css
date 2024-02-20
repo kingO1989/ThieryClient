@@ -37,7 +37,8 @@ body {
   background-color: white;
 }
 
-.dark > h4 {
+.dark span,
+.dark label {
   color: white;
 }
 
@@ -45,7 +46,8 @@ body {
   color: white;
 }
 
-.light > h4 {
+.light span,
+label {
   color: rgb(73, 72, 72);
 }
 
@@ -58,7 +60,7 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 0px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -73,7 +75,16 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-color: #1f99cd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.dark button:focus,
+.dark button:focus-visible {
+  background-color: #1f99cd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
 }
 
 @media (prefers-color-scheme: light) {
@@ -85,6 +96,10 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: white;
+    border: 1px solid rgb(97, 96, 96);
+  }
+  .dark button {
+    background-color: rgb(73, 72, 72);
   }
 }
