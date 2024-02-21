@@ -155,14 +155,14 @@ function App() {
             <div className="header">
               <nav>
                 <span>
-                  <b>Sky Train</b>
+                  <b>SkyTrain</b>
                 </span>
               </nav>
               <ThemeSwitch setMode={setMode} mode={mode} />
             </div>
             <div className="select_and_theme">
               <div className="select_sky_train">
-                <label htmlFor="skytrains">Select Train</label>
+                <label htmlFor="skytrains">Select Car</label>
                 <select
                   className="skytrains"
                   data-tag
