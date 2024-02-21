@@ -100,9 +100,3 @@ select {
   font-size: x-large;
   outline: none;
 }
-
-@media only screen and (max-width: 600px) {
-  .container .other_plots {
-    display: none;
-  }
-}
