@@ -81,6 +81,7 @@ const HeatMap = memo(function HeatMap({
           color: mode ? "white" : "rgb(73, 72, 72) ",
           zeroline: false,
           autorange: true,
+          visible: false,
         },
       }}
     />
